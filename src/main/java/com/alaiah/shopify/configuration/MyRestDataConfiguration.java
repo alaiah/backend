@@ -1,7 +1,9 @@
 package com.alaiah.shopify.configuration;
 
+import com.alaiah.shopify.entity.Country;
 import com.alaiah.shopify.entity.Product;
 import com.alaiah.shopify.entity.ProductCategory;
+import com.alaiah.shopify.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -39,6 +41,16 @@ public class MyRestDataConfiguration implements RepositoryRestConfigurer {
 
         config.getExposureConfiguration()
                 .forDomainType(ProductCategory.class)
+                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
+                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
+
+        config.getExposureConfiguration()
+                .forDomainType(Country.class)
+                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
+                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
+
+        config.getExposureConfiguration()
+                .forDomainType(State.class)
                 .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
                 .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
 

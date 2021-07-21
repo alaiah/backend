@@ -5,6 +5,7 @@ import com.alaiah.shopify.entity.Product;
 import com.alaiah.shopify.entity.ProductCategory;
 import com.alaiah.shopify.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -21,41 +22,43 @@ import java.util.List;
 public class MyRestDataConfiguration implements RepositoryRestConfigurer {
 
 
+    @Value("${allowed.origins}")
+    private String[] theAllowedOrigins;
+
+
     private EntityManager entityManager;
 
     @Autowired
     public MyRestDataConfiguration(EntityManager theEntityManager) {
+
         this.entityManager = theEntityManager;
     }
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
-        HttpMethod[] disallowedHttpMethods = {HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH};
-
-        config.getExposureConfiguration()
-                .forDomainType(Product.class)
-                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
-                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
 
 
-        config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class)
-                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
-                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
-
-        config.getExposureConfiguration()
-                .forDomainType(Country.class)
-                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
-                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
-
-        config.getExposureConfiguration()
-                .forDomainType(State.class)
-                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
-                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
+        this.disableHttpMethods(config, Product.class);
+        this.disableHttpMethods(config, ProductCategory.class);
+        this.disableHttpMethods(config, Country.class);
+        this.disableHttpMethods(config, State.class);
 
 
         exposeIds(config);
+
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
+
+    }
+
+    private void disableHttpMethods(RepositoryRestConfiguration config, Class myClass) {
+
+        HttpMethod[] disallowedHttpMethods = {HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH};
+
+        config.getExposureConfiguration()
+                .forDomainType(myClass)
+                .withItemExposure((meta, http) -> http.disable(disallowedHttpMethods))
+                .withCollectionExposure((meta, http) -> http.disable(disallowedHttpMethods));
 
     }
 

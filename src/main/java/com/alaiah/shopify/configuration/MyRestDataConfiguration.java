@@ -1,9 +1,6 @@
 package com.alaiah.shopify.configuration;
 
-import com.alaiah.shopify.entity.Country;
-import com.alaiah.shopify.entity.Product;
-import com.alaiah.shopify.entity.ProductCategory;
-import com.alaiah.shopify.entity.State;
+import com.alaiah.shopify.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

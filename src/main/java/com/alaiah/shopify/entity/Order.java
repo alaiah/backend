@@ -1,6 +1,7 @@
 package com.alaiah.shopify.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,15 +34,17 @@ public class Order {
     @Column(name = "total_quantity")
     private int totalQuantity;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="billing_address_id", referencedColumnName = "id")
     private Address billingAddress;
 
-
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
     private Address shippingAddress;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
@@ -57,6 +60,7 @@ public class Order {
     @Column(name = "last_updated")
     private Date lastUpdated;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems = new HashSet<>();
 

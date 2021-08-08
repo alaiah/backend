@@ -19,8 +19,8 @@ import java.util.List;
 public class MyRestDataConfiguration implements RepositoryRestConfigurer {
 
 
-    @Value("${allowed.origins}")
-    private String[] theAllowedOrigins;
+    //@Value("${allowed.origins}")
+    //private String[] theAllowedOrigins;
 
 
     private EntityManager entityManager;
@@ -44,7 +44,8 @@ public class MyRestDataConfiguration implements RepositoryRestConfigurer {
 
         exposeIds(config);
 
-        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
+        cors.addMapping(config.getBasePath() + "/**");
+                //.allowedOrigins(theAllowedOrigins);
 
     }
 

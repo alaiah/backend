@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@CrossOrigin("https://www.alaiahchandra.com")
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
    Customer findByEmail(@RequestParam("email") String email);

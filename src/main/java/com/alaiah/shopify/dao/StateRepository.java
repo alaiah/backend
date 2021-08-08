@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 
+@CrossOrigin("https://www.alaiahchandra.com")
 @RepositoryRestResource
 public interface StateRepository extends JpaRepository<State, Integer> {
 
